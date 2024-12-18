@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"hr-system/common/config"
 	"hr-system/common/dao/query"
 	"hr-system/common/database"
 	"hr-system/common/proto"
@@ -14,8 +14,7 @@ import (
 )
 
 func main() {
-	database.Init()
-	fmt.Println(database.GetDB())
+	database.Init(config.Get())
 	query.SetDefault(database.GetDB())
 
 	listener, err := net.Listen("tcp", ":50052")

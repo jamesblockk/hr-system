@@ -87,7 +87,7 @@ hr-system/
     └── seed_data.go
 ｀``
 
-# System Architecture Diagram
+# 系統架構圖
 
                    +----------------------+
                    |      Client          |
@@ -122,104 +122,102 @@ hr-system/
 ```
 
 
-# System Description
+# 系統描述
 
-## 1. Client (Frontend Application)
-- Includes Web or Mobile Apps that interact with backend services via the API Gateway.
+## 1. Client (前端應用)
+- 包括 Web 或 Mobile App，透過 API Gateway 與後端服務交互。
 
 ---
 
 ## 2. API Gateway
-### Features
-- **Routing Management**: Directs requests to appropriate services like `auth-service` and `employee-service`.
-- **Business Logic Layer**: Handles interactions between multiple services.
-- **Authentication**: Handles JWT authentication (via `middlewares/jwt.go`).
+### 功能
+- **路由管理**：分發請求到對應服務，例如 `auth-service` 和 `employee-service`。
+- **中介層業務邏輯**：處理多服務交互。
+- **驗證**：如處理 JWT 驗證（`middlewares/jwt.go`）。
 
-### Relevant Files
-- `api-gateway/handler/*`: Handles specific routing logic.
-- `api-gateway/middlewares/jwt.go`: JWT authentication middleware.
-- `api-gateway/routes/routes.go`: Routing configuration.
-
----
-
-## 3. Auth Service
-### Features
-- Manages user login, registration, and other related operations.
-- Provides APIs related to user management.
-
-### Relevant Files
-- `auth-service/internal/handler.go`: Handles specific business logic.
-- `auth-service/main.go`: Service entry point.
+### 相關檔案
+- `api-gateway/handler/*`：處理具體路由邏輯。
+- `api-gateway/middlewares/jwt.go`：JWT 驗證中間件。
+- `api-gateway/routes/routes.go`：路由設定。
 
 ---
 
-## 4. Employee Service
-### Features
-- Manages operations related to employee management.
-- Interacts with the database to manage employee data.
+## 3. Auth Service (認證服務)
+### 功能
+- 管理使用者登入、註冊等操作。
+- 提供與使用者相關的 API。
 
-### Relevant Files
-- `employee-service/internal/handler.go`: Handles specific business logic.
-- `employee-service/main.go`: Service entry point.
-
----
-
-## 5. Common Modules
-### Features
-- Encapsulates shared logic across services:
-  - **Configuration Management**: `common/config/`
-  - **Data Access Objects (DAO)**: `common/dao/models` and `common/dao/query`
-  - **Database Initialization and Management**: `common/database/mysql.go` and `gorm-gen`
-  - **JWT Utilities**: `common/jwt/jwt.go`
-  - **Logging Utilities**: `common/logger/logger.go`
-  - **gRPC and Proto Definitions**: `common/proto/`
+### 相關檔案
+- `auth-service/internal/handler.go`：處理具體業務邏輯。
+- `auth-service/main.go`：啟動服務入口。
 
 ---
 
-## 6. Data Storage
-- **MySQL**: Stores structured data like employee information, user accounts, departments, and positions.
-- **Redis**: Used for caching, potentially speeding up JWT validation or other queries.
+## 4. Employee Service (員工管理服務)
+### 功能
+- 管理員工相關的操作。
+- 與數據庫交互管理員工的資料。
+
+### 相關檔案
+- `employee-service/internal/handler.go`：處理具體業務邏輯。
+- `employee-service/main.go`：啟動服務入口。
 
 ---
 
-## 7. Containerized Deployment (Docker)
-- Defines Docker images for different services via multiple `Dockerfile` configurations.
-- Uses `docker-compose.yaml` for service startup and network configuration.
+## 5. Common Modules (共享模組)
+### 功能
+- 封裝跨服務的公共邏輯：
+  - **配置管理**：`common/config/`
+  - **資料訪問物件（DAO）**：`common/dao/models` 和 `common/dao/query`
+  - **資料庫初始化與管理**：`common/database/mysql.go` 和 `gorm-gen`
+  - **JWT 工具**：`common/jwt/jwt.go`
+  - **日誌工具**：`common/logger/logger.go`
+  - **gRPC 與 Proto 定義**：`common/proto/`
 
 ---
 
-## 8. Documentation and Other Modules
-- **Documentation**: `docs` contains Swagger documentation for API reference.
-- **Database Migrations**: `migrations` manages database schema migrations.
-- **Seed Data**: `seeddata` is used to generate seed data for development or testing.
+## 6. 數據存儲
+- **MySQL**：存儲員工資料、使用者帳號、部門與職位等結構化數據。
+- **Redis**：用於緩存，可能加速 JWT 驗證或其他查詢。
 
 ---
+
+## 7. 容器化部署 (Docker)
+- 透過多個 `Dockerfile` 為不同服務提供鏡像定義。
+- 使用 `docker-compose.yaml` 管理服務間的啟動與網路配置。
+
+---
+
+## 8. 文件與其他模組
+- **文件**：`docs` 包含 Swagger 文件，用於 API 說明。
+- **數據遷移**：`migrations` 用於管理數據庫遷移。
+- **種子數據**：`seeddata` 用於開發或測試時生成種子數據。
 
 
 
 ---
-# Makefile Description
-- Run unit tests (ensure database is up before running):
+# Makefile 說明
+- 執行單元測試(執行前資料庫須先開啟）：
   ```
   make test
   ```
-- Manage dependencies:
+- 整理依賴模組：
   ```
   make mod
   ```
-- Start the entire service stack:
+- 啟動完整服務：
   ```
   make docker-compose-up
   ```
-- Start only the database service:
+- 僅啟動資料庫：
   ```
   make docker-compose-up-db-only
   ```
-- Generate Swagger documentation:
+- 生成 Swagger 文檔：
   ```
   make swag
   ```
-- Generate GORM model code:
+- 生成 GORM 模型代碼：
   ```
   make gorm-gen
   ```
@@ -228,14 +226,12 @@ hr-system/
 # 快速啟動
 
 ```
-Start all services
-
+開起全部服務
 > make docker-compose-up
 ```
 
 ```
-Get Employee #1 Data
-
+取得員工 1號 資料
 > curl -X 'GET' \
   'http://localhost:8081/api/employees/1' \
   -H 'accept: application/json' \

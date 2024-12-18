@@ -13,8 +13,7 @@ import (
 
 var _db *gorm.DB
 
-func Init() {
-	cfg := config.Get()
+func Init(cfg *config.Config) {
 	db, err := gorm.Open(mysql.Open(cfg.Mysql.DSN), &gorm.Config{
 		AllowGlobalUpdate: true,
 	})

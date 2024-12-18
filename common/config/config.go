@@ -55,3 +55,21 @@ func Get() *Config {
 		},
 	}
 }
+
+func GetLocal() *Config {
+	return &Config{
+		Mysql: MySQLConfig{
+			DSN:                  "root:password@tcp(localhost:3306)/hr_system?charset=utf8mb4&parseTime=True&loc=UTC",
+			ParameterizedQueries: false,
+			MaxIdleConns:         5,
+			MaxOpenConns:         20,
+			ConnMaxLifetime:      1 * time.Hour,
+		},
+
+		Redis: RedisConfig{
+			Addr:     "localhost:6379",
+			Password: "",
+			DB:       0,
+		},
+	}
+}

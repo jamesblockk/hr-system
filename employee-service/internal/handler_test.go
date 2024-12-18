@@ -2,6 +2,9 @@ package internal_test
 
 import (
 	"context"
+	"hr-system/common/config"
+	"hr-system/common/dao/query"
+	"hr-system/common/database"
 	"hr-system/common/proto"
 	"hr-system/employee-service/internal"
 	"testing"
@@ -52,6 +55,9 @@ type Position struct {
 }
 
 func TestGetEmployeeByID(t *testing.T) {
+	database.Init(config.GetLocal())
+	query.SetDefault(database.GetDB())
+
 	// Create mock data
 	mockEmployee := &Employee{
 		ID:           1,
@@ -83,12 +89,12 @@ func TestGetEmployeeByID(t *testing.T) {
 	// Assert the response
 	assert.NoError(t, err)
 	assert.NotNil(t, resp)
-	assert.Equal(t, uint(1), resp.Employee.Id)
+	assert.Equal(t, uint64(1), resp.Employee.Id)
 	assert.Equal(t, "Alice", resp.Employee.Name)
 	assert.Equal(t, "alice@example.com", resp.Employee.Email)
 	assert.Equal(t, "111222333", resp.Employee.Phone)
-	assert.Equal(t, uint(1), resp.Employee.DepartmentId)
-	assert.Equal(t, uint(1), resp.Employee.PositionId)
+	assert.Equal(t, uint64(1), resp.Employee.DepartmentId)
+	assert.Equal(t, uint64(1), resp.Employee.PositionId)
 	assert.Equal(t, "2021-01-01", resp.Employee.HireDate)
 	assert.Equal(t, 50000.0, resp.Employee.Salary)
 	assert.Equal(t, "Engineering", resp.Employee.Department.Name)

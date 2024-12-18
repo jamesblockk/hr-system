@@ -1,13 +1,7 @@
-.PHONY: build run test docker-compose-up
-
-build:
-	go build -o hr-system ./cmd/main.go
-
-run:
-	go run ./cmd/main.go
+.PHONY: build run test docker-compose-up docker-compose-up-db-only 
 
 test:
-	go test ./tests/...
+	go test ./employee-service/internal/...
 
 mod:
 	go mod tidy && go mod vendor

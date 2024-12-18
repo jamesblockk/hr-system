@@ -18,7 +18,12 @@ func (s *Server) GetEmployeeByID(ctx context.Context, req *proto.GetEmployeeRequ
 	log.Printf("GetEmployee called with: %v", req.GetId())
 
 	employeeQuery := query.Employee
-	employee, err := employeeQuery.WithContext(ctx).Where(employeeQuery.ID.Eq(uint(req.GetId()))).First()
+	employee, err := employeeQuery.WithContext(ctx).
+		Preload(employeeQuery.Department).
+		Preload(employeeQuery.Position).
+		Where(
+			employeeQuery.ID.Eq(uint(req.GetId())),
+		).First()
 	if err != nil {
 		return
 	}

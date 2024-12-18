@@ -1,0 +1,18 @@
+# 使用 Go 的官方鏡像
+FROM golang:1.22-alpine
+
+RUN mkdir /app
+
+WORKDIR /app
+
+COPY . .
+
+# 編譯應用程序
+RUN go build -o auth-service-linux /app/auth-service/main.go
+
+# 暴露 gRPC 端口
+EXPOSE 50051
+
+# 啟動 gRPC 服務
+CMD ["/app/auth-service-linux"]
+

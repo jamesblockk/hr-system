@@ -1,0 +1,17 @@
+# 使用 Go 的官方鏡像
+FROM golang:1.22-alpine
+
+WORKDIR /app
+
+COPY . .
+
+# 編譯應用程序
+RUN go build -o api-gateway-linux /app/api-gateway/main.go
+
+
+# 暴露 API 端口
+EXPOSE 8081
+
+# 啟動 API Gateway
+CMD ["/app/api-gateway-linux"]
+

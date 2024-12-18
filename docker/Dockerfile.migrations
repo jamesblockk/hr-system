@@ -1,0 +1,15 @@
+# 使用 Go 的官方鏡像
+FROM golang:1.22-alpine
+
+RUN mkdir /app
+
+WORKDIR /app
+
+COPY . .
+
+# 編譯應用程序
+RUN go build -o migrations-linux /app/migrations/main.go
+
+# 啟動 gRPC 服務
+CMD ["/app/migrations-linux"]
+

@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "../proto";
+
+// Import Google Protobuf Timestamp for time fields
+import "google/protobuf/timestamp.proto";
+
+// Employee Service Definition
+service EmployeeService {
+  // Get an employee by ID
+  rpc GetEmployeeByID (GetEmployeeRequest) returns (EmployeeResponse);
+
+}
+
+// Employee data structure
+message Employee {
+  uint64 id = 1;                                   // Employee ID
+  string name = 2;                                 // Employee name
+  string email = 3;                                // Employee email
+  string phone = 4;                                // Employee phone number
+  uint64 department_id = 5;                        // Department ID
+  uint64 position_id = 6;                          // Position ID
+  google.protobuf.Timestamp hire_date = 7;         // Hire date
+  double salary = 8;                               // Salary
+  Department department = 9;                       // Associated department
+  Position position = 10;                          // Associated position
+}
+
+// Department data structure
+message Department {
+  uint64 id = 1;         // Department ID
+  string name = 2;       // Department name
+}
+
+// Position data structure
+message Position {
+  uint64 id = 1;         // Position ID
+  string name = 2;       // Position name
+}
+
+// Empty request for fetching all employees
+message EmptyRequest {}
+
+// Response containing a list of employees
+message EmployeeListResponse {
+  repeated Employee employees = 1; // List of employees
+}
+
+// Request to get an employee by ID
+message GetEmployeeRequest {
+  uint64 id = 1; // Employee ID
+}
+
+// Response for a single employee
+message EmployeeResponse {
+  Employee employee = 1; // Employee data
+}

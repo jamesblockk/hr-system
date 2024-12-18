@@ -225,7 +225,7 @@ hr-system/
   ```
 
 ---
-# 快速啟動
+# Quick Start
 
 ```
 Start all services

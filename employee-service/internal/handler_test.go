@@ -2,6 +2,7 @@ package internal_test
 
 import (
 	"context"
+	"fmt"
 	"hr-system/common/config"
 	"hr-system/common/dao/query"
 	"hr-system/common/database"
@@ -50,33 +51,34 @@ type Department struct {
 }
 
 type Position struct {
-	ID   uint
-	Name string
+	ID    uint
+	Title string
+	Level string
 }
 
 func TestGetEmployeeByID(t *testing.T) {
 	database.Init(config.GetLocal())
 	query.SetDefault(database.GetDB())
 
-	// Create mock data
-	mockEmployee := &Employee{
-		ID:           1,
-		Name:         "Alice",
-		Email:        "alice@example.com",
-		Phone:        "111222333",
-		DepartmentID: 1,
-		PositionID:   1,
-		HireDate:     "2021-01-01", // Mocked date
-		Salary:       50000,
-		Department:   &Department{ID: 1, Name: "Engineering"},
-		Position:     &Position{ID: 1, Name: "Developer"},
-	}
+	// // Create mock data
+	// mockEmployee := &Employee{
+	// 	ID:           1,
+	// 	Name:         "Alice",
+	// 	Email:        "alice@example.com",
+	// 	Phone:        "111222333",
+	// 	DepartmentID: 1,
+	// 	PositionID:   1,
+	// 	HireDate:     "2021-01-01", // Mocked date
+	// 	Salary:       50000,
+	// 	Department:   &Department{ID: 1, Name: "Engineering"},
+	// 	Position:     &Position{ID: 1, Title: "Junior Developer", Level: "Junior"},
+	// }
 
-	// Create a mock EmployeeQuery
-	mockQuery := new(MockEmployeeQuery)
-	mockQuery.On("WithContext", mock.Anything).Return(mockQuery)
-	mockQuery.On("Where", mock.Anything).Return(mockQuery)
-	mockQuery.On("First").Return(mockEmployee, nil)
+	// // Create a mock EmployeeQuery
+	// mockQuery := new(MockEmployeeQuery)
+	// mockQuery.On("WithContext", mock.Anything).Return(mockQuery)
+	// mockQuery.On("Where", mock.Anything).Return(mockQuery)
+	// mockQuery.On("First").Return(mockEmployee, nil)
 
 	server := &internal.Server{}
 
@@ -85,7 +87,8 @@ func TestGetEmployeeByID(t *testing.T) {
 
 	// Call GetEmployeeByID method
 	resp, err := server.GetEmployeeByID(context.Background(), req)
-
+	fmt.Println(resp.Employee)
+	fmt.Println("--zxc-xzc-zx")
 	// Assert the response
 	assert.NoError(t, err)
 	assert.NotNil(t, resp)
@@ -95,11 +98,11 @@ func TestGetEmployeeByID(t *testing.T) {
 	assert.Equal(t, "111222333", resp.Employee.Phone)
 	assert.Equal(t, uint64(1), resp.Employee.DepartmentId)
 	assert.Equal(t, uint64(1), resp.Employee.PositionId)
-	assert.Equal(t, "2021-01-01", resp.Employee.HireDate)
+	assert.Equal(t, "2024-12-18", resp.Employee.HireDate.AsTime().Format("2006-01-02"))
 	assert.Equal(t, 50000.0, resp.Employee.Salary)
 	assert.Equal(t, "Engineering", resp.Employee.Department.Name)
-	assert.Equal(t, "Developer", resp.Employee.Position.Name)
+	assert.Equal(t, "Junior Developer", resp.Employee.Position.Title)
 
 	// Assert that the mock methods were called
-	mockQuery.AssertExpectations(t)
+	// mockQuery.AssertExpectations(t)
 }

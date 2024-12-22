@@ -87,7 +87,7 @@ hr-system/
     └── seed_data.go
 ｀``
 
-# System Architecture Diagram
+# System Architecture Diagram (micro service)
 
                    +----------------------+
                    |      Client          |
@@ -234,14 +234,27 @@ Start all services
 ```
 
 ```
+Login And Get Token 
+
+> curl -X 'POST' \
+  'http://localhost:8081/api/login' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{}'
+
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzQ5MjI5OTEsInVzZXJfaWQiOjd9.8ny3-GIKAjfq9mhHPSmn4sO1L928QPBsGut6NFvwlU0"
+}
+
+
 Get Employee #1 Data
 
 > curl -X 'GET' \
   'http://localhost:8081/api/employees/1' \
   -H 'accept: application/json' \
-  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzQ1OTkzMDQsInVzZXJfaWQiOjd9.dYhpJ8WmoM2BDrdNza7KYJwiCU_UJJg-V1wgDfGQ9Qg'
+  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzQ5MjI5OTEsInVzZXJfaWQiOjd9.8ny3-GIKAjfq9mhHPSmn4sO1L928QPBsGut6NFvwlU0'
 
 
-  {"id":1,"name":"Alice","email":"alice@example.com","phone":"111222333","department_id":1,"position_id":1,"hire_date":{},"salary":50000,"department":{"id":1,"name":"Engineering"},"position":{"id":1}}%                                                                         
+{"id":1,"name":"Alice","email":"alice@example.com","phone":"111222333","department_id":1,"position_id":1,"hire_date":{},"salary":50000,"department":{"id":1,"name":"Engineering"},"position":{"id":1,"title":"Junior Developer","level":"Junior"}}%   %                                                                         
 
 ```

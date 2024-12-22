@@ -6,6 +6,7 @@ import (
 	"hr-system/common/proto"
 
 	"github.com/jinzhu/copier"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 
 	"log"
 )
@@ -32,6 +33,8 @@ func (s *Server) GetEmployeeByID(ctx context.Context, req *proto.GetEmployeeRequ
 	if err = copier.CopyWithOption(&result.Employee, &employee, copier.Option{}); err != nil {
 		return
 	}
+
+	result.Employee.HireDate = timestamppb.New(employee.HireDate)
 
 	return result, nil
 }

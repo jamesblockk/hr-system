@@ -77,7 +77,7 @@ func main() {
 }
 
 func newGenerator() *gen.Generator {
-	cfg := config.Get()
+	cfg := config.GetLocal()
 	_db, err := gorm.Open(mysql.Open(cfg.Mysql.DSN), &gorm.Config{
 		AllowGlobalUpdate: true,
 	})

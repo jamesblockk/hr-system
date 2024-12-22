@@ -37,7 +37,8 @@ message Department {
 // Position data structure
 message Position {
   uint64 id = 1;         // Position ID
-  string name = 2;       // Position name
+  string title = 2;       // Position title
+  string level = 3;       // Position level
 }
 
 // Empty request for fetching all employees
